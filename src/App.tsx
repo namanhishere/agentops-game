@@ -5,6 +5,7 @@ import { AgentPanel } from "./components/AgentPanel/AgentPanel";
 import { TaskBoard } from "./components/TaskBoard/TaskBoard";
 import { EventLog } from "./components/EventLog";
 import { FailureModal } from "./components/modals/FailureModal";
+import { GameOverScreen } from "./components/GameOver/GameOverScreen";
 import { AssignProvider } from "./components/assignContext";
 import { Btn } from "./components/ui";
 
@@ -15,14 +16,6 @@ function StartScreenPlaceholder() {
       <div className="text-5xl font-black tracking-[0.3em] text-accent">AGENTOPS</div>
       <div className="text-xs text-slate-500 tracking-widest">LAST TOKEN</div>
       <Btn onClick={startNewRun}>NEW RUN</Btn>
-    </div>
-  );
-}
-
-function GameOverPlaceholder() {
-  return (
-    <div className="absolute inset-0 z-20 flex items-center justify-center bg-red-950/60">
-      <div className="text-4xl font-black text-danger">GAME OVER</div>
     </div>
   );
 }
@@ -56,7 +49,7 @@ export default function App() {
             <EventLog />
           </div>
         )}
-        {phase === "gameover" && <GameOverPlaceholder />}
+        {phase === "gameover" && <GameOverScreen />}
         {phase === "victory" && <VictoryPlaceholder />}
         <FailureModal />
       </div>

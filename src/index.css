@@ -24,3 +24,27 @@ body {
 canvas {
   image-rendering: pixelated;
 }
+
+@keyframes shake-in {
+  0% {
+    transform: translate(0, -12px) scale(0.96);
+    opacity: 0;
+  }
+  40% {
+    transform: translate(-5px, 2px) scale(1.01);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(4px, -1px) scale(1);
+  }
+  80% {
+    transform: translate(-2px, 1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.animate-shake-in {
+  animation: shake-in 0.45s ease-out both;
+}
