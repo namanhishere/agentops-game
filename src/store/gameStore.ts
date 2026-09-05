@@ -401,6 +401,7 @@ export const useGameStore = create<GameStore>()((set, get) => ({
   startNewRun: () => {
     const s = initialState();
     s.phase = "running";
+    sfx.setMuted(false);
     s.agents = INITIAL_AGENTS.map((a) => ({ ...a, id: uuid() }));
     s.tasks = seedInitialTasks(0);
     s.nextTaskId = 4;
@@ -413,6 +414,7 @@ export const useGameStore = create<GameStore>()((set, get) => ({
   continueRun: () => {
     const loaded = loadGame();
     if (!loaded) return;
+    sfx.setMuted(!loaded.settings.sound);
     set({ ...loaded, phase: "running" });
   },
 
@@ -423,7 +425,9 @@ export const useGameStore = create<GameStore>()((set, get) => ({
 
   toggleSound: () => {
     const s = get();
-    set({ settings: { sound: !s.settings.sound } });
+    const next = !s.settings.sound;
+    sfx.setMuted(!next);
+    set({ settings: { sound: next } });
   },
 
   assignAgent: (taskId, agentId) => {
