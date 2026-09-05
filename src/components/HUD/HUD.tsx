@@ -4,6 +4,7 @@ import { RUN_DEADLINE } from "../../config";
 import { tokenPackages } from "../../systems/economySystem";
 import { Btn, fmtClock, fmtMoney, fmtTokens, MoneyText, Panel, TokenText } from "../ui";
 import { hasSave } from "../../persistence/save";
+import { ShopModal } from "../Shop/ShopModal";
 
 export function HUD() {
   const money = useGameStore((s) => s.money);
@@ -15,6 +16,7 @@ export function HUD() {
   const toggleSound = useGameStore((s) => s.toggleSound);
   const buyTokens = useGameStore((s) => s.buyTokens);
   const [tokensOpen, setTokensOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
   const [saveDot, setSaveDot] = useState(false);
 
   const remaining = RUN_DEADLINE - runClock;
@@ -61,8 +63,7 @@ export function HUD() {
         <Btn
           title="Hire new agents"
           variant="success"
-          className="hidden"
-          onClick={() => {}}
+          onClick={() => setShopOpen(true)}
         >
           HIRE
         </Btn>
@@ -102,6 +103,7 @@ export function HUD() {
           {sound ? "🔊" : "🔇"}
         </Btn>
       </div>
+      {shopOpen && <ShopModal onClose={() => setShopOpen(false)} />}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { AgentPanel } from "./components/AgentPanel/AgentPanel";
 import { TaskBoard } from "./components/TaskBoard/TaskBoard";
 import { EventLog } from "./components/EventLog";
 import { FailureModal } from "./components/modals/FailureModal";
+import { LevelUpModal } from "./components/modals/LevelUpModal";
 import { GameOverScreen } from "./components/GameOver/GameOverScreen";
 import { AssignProvider } from "./components/assignContext";
 import { Btn } from "./components/ui";
@@ -52,6 +53,7 @@ export default function App() {
         {phase === "gameover" && <GameOverScreen />}
         {phase === "victory" && <VictoryPlaceholder />}
         <FailureModal />
+        <LevelUpModal />
       </div>
     </AssignProvider>
   );
