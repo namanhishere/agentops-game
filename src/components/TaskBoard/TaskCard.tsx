@@ -48,7 +48,7 @@ export function TaskCard({ task, onAssign }: { task: Task; onAssign: (id: string
   const isEmergency = !!task.emergency;
   const multi = task.bonusMultiplier ?? 1;
   return (
-    <Panel className={`p-2 ${isEmergency ? "border-danger/60 animate-pulse" : ""}`}>
+    <Panel className={`card-in p-2 ${isEmergency ? "border-danger/60 animate-pulse" : ""}`}>
       <div className="flex items-center gap-1.5">
         <span className="text-[11px] font-bold text-slate-200 truncate" title={task.description}>
           {task.name}

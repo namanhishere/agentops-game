@@ -19,7 +19,7 @@ export function EventLog() {
   }, [log.length]);
 
   return (
-    <div className="col-span-3 bg-panel border-t border-white/10 flex flex-col">
+    <div className="col-span-3 h-full bg-panel border-t border-white/10 flex flex-col">
       <div className="px-3 pt-1 text-[10px] uppercase tracking-widest text-slate-500">
         Event log
       </div>

@@ -14,8 +14,8 @@ export function FailureModal() {
   const agent = agents.find((a) => a.id === pending.agentId);
 
   return (
-    <Modal>
-      <div className="p-4">
+    <Modal widthClass="w-[440px]">
+      <div className="p-4 animate-shake-in">
         <div className="text-sm font-black text-danger tracking-wide">⚠ AGENT FAILURE</div>
         <div className="mt-2 text-xs text-slate-200">
           <span className="font-bold">{agent?.name ?? "Agent"}</span> failed: "

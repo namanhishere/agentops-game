@@ -27,6 +27,8 @@ export class OfficeScene extends Phaser.Scene {
   private confetti!: Phaser.GameObjects.Particles.ParticleEmitter;
   private confettiTimer: Phaser.Time.TimerEvent | null = null;
   private lastPhase = "menu";
+  private leds: Phaser.GameObjects.Rectangle[] = [];
+  private ledDur = 600;
 
   constructor() {
     super("office");
@@ -107,17 +109,13 @@ export class OfficeScene extends Phaser.Scene {
     // server rack with blinking LEDs
     const r = SERVER_RACK;
     this.add.rectangle(r.x - 20, r.y - 30, 40, 60, RACK).setDepth(2);
+    this.leds = [];
     for (let i = 0; i < 5; i++) {
       const led = this.add.rectangle(r.x - 10 + (i % 2) * 12, r.y - 20 + Math.floor(i / 2) * 10, 4, 4, 0x22d3ee).setDepth(3);
-      this.tweens.add({
-        targets: led,
-        alpha: { from: 0.15, to: 1 },
-        duration: 500 + Math.random() * 900,
-        yoyo: true,
-        repeat: -1,
-        delay: i * 130,
-      });
+      this.leds.push(led);
     }
+    this.ledDur = 600;
+    this.restartLeds();
 
     // two plant decorations
     for (const [px, py] of [
@@ -129,6 +127,28 @@ export class OfficeScene extends Phaser.Scene {
         const a = (i / 4) * Math.PI * 2;
         this.add.circle(px + Math.cos(a) * 10, py + Math.sin(a) * 10 - 6, 7, 0x2f6b3f).setDepth(3);
       }
+    }
+  }
+
+  private restartLeds(): void {
+    this.leds.forEach((led, i) => {
+      this.tweens.killTweensOf(led);
+      this.tweens.add({
+        targets: led,
+        alpha: { from: 0.12, to: 1 },
+        duration: 150 + Math.random() * Math.max(120, this.ledDur),
+        yoyo: true,
+        repeat: -1,
+        delay: i * 90,
+      });
+    });
+  }
+
+  private updateLedRate(activeCount: number): void {
+    const target = Math.max(200, 600 - activeCount * 70);
+    if (Math.abs(target - this.ledDur) > 5) {
+      this.ledDur = target;
+      this.restartLeds();
     }
   }
 
@@ -186,6 +206,8 @@ export class OfficeScene extends Phaser.Scene {
     }
 
     if (s.phase !== "running") return;
+
+    this.updateLedRate(s.tasks.filter((t) => t.status === "active").length);
 
     this.reconcileAgents(s.agents);
 
@@ -271,6 +293,7 @@ export class OfficeScene extends Phaser.Scene {
       .rectangle(0, 0, GAME_W, GAME_H, 0xef4444, 0.16)
       .setOrigin(0)
       .setDepth(85);
+    this.cameras.main.shake(180, 0.006);
     this.tweens.add({
       targets: r,
       alpha: 0,

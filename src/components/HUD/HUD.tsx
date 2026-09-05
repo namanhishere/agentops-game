@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGameStore } from "../../store/gameStore";
 import { RUN_DEADLINE } from "../../config";
 import { tokenPackages } from "../../systems/economySystem";
-import { Btn, fmtClock, fmtMoney, fmtTokens, MoneyText, Panel, TokenText } from "../ui";
+import { Btn, fmtClock, fmtMoney, fmtTokens, Panel } from "../ui";
 import { hasSave } from "../../persistence/save";
 import { ShopModal } from "../Shop/ShopModal";
+
+function useFlash(value: number): { key: number; cls: string } {
+  const prev = useRef(value);
+  const cls = value >= prev.current ? "flash-up" : "flash-down";
+  prev.current = value;
+  return { key: Math.floor(value), cls };
+}
 
 export function HUD() {
   const money = useGameStore((s) => s.money);
@@ -18,6 +25,8 @@ export function HUD() {
   const [tokensOpen, setTokensOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [saveDot, setSaveDot] = useState(false);
+  const moneyFlash = useFlash(money);
+  const tokenFlash = useFlash(tokens);
 
   const remaining = RUN_DEADLINE - runClock;
   const lowTime = remaining < 60;
@@ -32,8 +41,8 @@ export function HUD() {
       <div className="text-accent font-black tracking-[0.25em] text-sm">AGENTOPS</div>
       <div className="text-[10px] text-slate-500">LAST TOKEN</div>
       <span className="mx-1 h-4 w-px bg-white/10" />
-      <MoneyText value={money} />
-      <TokenText value={tokens} />
+      <span key={moneyFlash.key} title="Money — wages, hires, recovery, token packs" className={`${moneyFlash.cls} text-success font-bold`}>{fmtMoney(money)}</span>
+      <span key={tokenFlash.key} title="Tokens — API usage on every task" className={`${tokenFlash.cls} text-accent font-bold`}>{fmtTokens(tokens)}</span>
       <span
         title="Time until the final deadline"
         className={`font-mono text-sm font-bold ${lowTime ? "text-danger animate-pulse" : "text-slate-200"}`}
