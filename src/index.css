@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-panel: #141827;
+  --color-panel2: #1c2136;
+  --color-accent: #22d3ee;
+  --color-gold: #fbbf24;
+  --color-danger: #ef4444;
+  --color-success: #34d399;
+  --font-mono: ui-monospace, "Cascadia Mono", "Courier New", monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: #0a0c14;
+}
+
+canvas {
+  image-rendering: pixelated;
+}
