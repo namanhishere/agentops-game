@@ -91,7 +91,7 @@ export function successChance(
     (agent.level - 1) * 0.03 -
     task.difficulty * penalty -
     FATIGUE_PENALTY[fatigueIndex(agent)] -
-    (task.hallucinated ? 0.15 : 0);
+    (task.hallucinated || agent.debuff?.kind === "scrambled" ? 0.15 : 0);
   return Math.min(0.98, Math.max(0.05, p));
 }
 

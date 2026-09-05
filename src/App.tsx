@@ -6,6 +6,7 @@ import { TaskBoard } from "./components/TaskBoard/TaskBoard";
 import { EventLog } from "./components/EventLog";
 import { FailureModal } from "./components/modals/FailureModal";
 import { LevelUpModal } from "./components/modals/LevelUpModal";
+import { EventModal } from "./components/modals/EventModal";
 import { GameOverScreen } from "./components/GameOver/GameOverScreen";
 import { AssignProvider } from "./components/assignContext";
 import { Btn } from "./components/ui";
@@ -54,6 +55,7 @@ export default function App() {
         {phase === "victory" && <VictoryPlaceholder />}
         <FailureModal />
         <LevelUpModal />
+        <EventModal />
       </div>
     </AssignProvider>
   );

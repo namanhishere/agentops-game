@@ -1,6 +1,7 @@
 import { useGameStore } from "../../store/gameStore";
 import { recoverCost } from "../../systems/economySystem";
 import { cooldownDuration } from "../../systems/agentSystem";
+import { FATIGUE_PENALTY } from "../../config";
 import {
   AGENT_EMOJI,
   Btn,
@@ -9,6 +10,8 @@ import {
   fmtMoney,
   Panel,
 } from "../ui";
+
+const FIELD_INDEX = { none: 0, low: 1, medium: 2, high: 3 } as const;
 
 export function AgentCard({ agentId }: { agentId: string }) {
   const agent = useGameStore((s) => s.agents.find((a) => a.id === agentId));
@@ -72,6 +75,14 @@ export function AgentCard({ agentId }: { agentId: string }) {
         <span className={`text-[9px] font-bold ${FATIGUE_STYLES[agent.fatigue]}`} title="Fatigue level">
           {agent.fatigue}
         </span>
+        {FATIGUE_PENALTY[FIELD_INDEX[agent.fatigue]] > 0 && (
+          <span
+            className="text-[9px] text-slate-500"
+            title="Success-chance penalty from fatigue"
+          >
+            Eff −{Math.round(FATIGUE_PENALTY[FIELD_INDEX[agent.fatigue]] * 100)}%
+          </span>
+        )}
         <span className="ml-auto text-[9px] text-slate-500">{Math.floor(energyPct)}%</span>
       </div>
       <div className="mt-1">
