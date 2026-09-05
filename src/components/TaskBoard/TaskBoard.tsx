@@ -2,6 +2,7 @@ import { useGameStore } from "../../store/gameStore";
 import { Modal } from "../ui";
 import { useAssign } from "../assignContext";
 import { ActiveTaskRow, AssignModalContent, TaskCard } from "./TaskCard";
+import { BossModal } from "../modals/BossModal";
 
 function AssignModal() {
   const { taskId, close } = useAssign();
@@ -37,11 +38,7 @@ export function TaskBoard() {
         Available tasks ({available.length})
       </div>
       <div className="px-2 pb-2 space-y-2 overflow-y-auto flex-1">
-        {boss && (
-          <div className="p-2 border border-gold/50 rounded bg-gold/5 text-[10px] text-gold font-bold animate-pulse">
-            ⚑ FINAL CONTRACT available — open the Boss console. (Step 9)
-          </div>
-        )}
+        {boss && <BossModal key={boss.id} />}
         {available.map((t) => (
           <TaskCard key={t.id} task={t} onAssign={open} />
         ))}

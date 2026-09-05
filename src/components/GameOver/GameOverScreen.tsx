@@ -2,6 +2,7 @@ import { useGameStore } from "../../store/gameStore";
 import { bestAgentLabel } from "../../persistence/save";
 import { computeScore } from "../../systems/scoring";
 import { Btn, Stat } from "../ui";
+import { HighScores } from "../HighScores";
 
 const HEADERS: Record<string, string> = {
   Bankrupt: "BANKRUPT",
@@ -40,6 +41,12 @@ export function GameOverScreen() {
             <Btn variant="primary" onClick={startNewRun} className="!px-6 !py-2 !text-xs">
               TRY AGAIN
             </Btn>
+          </div>
+          <div className="px-4 pb-4">
+            <div className="text-[10px] uppercase tracking-widest text-slate-500 mb-1.5 text-center">
+              Leaderboard
+            </div>
+            <HighScores />
           </div>
         </div>
       </div>

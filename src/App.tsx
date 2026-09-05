@@ -8,27 +8,9 @@ import { FailureModal } from "./components/modals/FailureModal";
 import { LevelUpModal } from "./components/modals/LevelUpModal";
 import { EventModal } from "./components/modals/EventModal";
 import { GameOverScreen } from "./components/GameOver/GameOverScreen";
+import { VictoryScreen } from "./components/GameOver/VictoryScreen";
+import { StartScreen } from "./components/StartScreen";
 import { AssignProvider } from "./components/assignContext";
-import { Btn } from "./components/ui";
-
-function StartScreenPlaceholder() {
-  const startNewRun = useGameStore((s) => s.startNewRun);
-  return (
-    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-[#0a0c14]">
-      <div className="text-5xl font-black tracking-[0.3em] text-accent">AGENTOPS</div>
-      <div className="text-xs text-slate-500 tracking-widest">LAST TOKEN</div>
-      <Btn onClick={startNewRun}>NEW RUN</Btn>
-    </div>
-  );
-}
-
-function VictoryPlaceholder() {
-  return (
-    <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60">
-      <div className="text-4xl font-black text-gold">VICTORY!</div>
-    </div>
-  );
-}
 
 export default function App() {
   const phase = useGameStore((s) => s.phase);
@@ -36,7 +18,7 @@ export default function App() {
     <AssignProvider>
       <div className="h-full w-full relative overflow-hidden">
         {phase !== "menu" && <PhaserMount />}
-        {phase === "menu" && <StartScreenPlaceholder />}
+        {phase === "menu" && <StartScreen />}
         {phase === "running" && (
           <div className="absolute inset-0 z-10 h-full grid grid-cols-[280px_1fr_320px] grid-rows-[auto_1fr_140px]">
             <HUD />
@@ -52,7 +34,7 @@ export default function App() {
           </div>
         )}
         {phase === "gameover" && <GameOverScreen />}
-        {phase === "victory" && <VictoryPlaceholder />}
+        {phase === "victory" && <VictoryScreen />}
         <FailureModal />
         <LevelUpModal />
         <EventModal />

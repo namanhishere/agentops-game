@@ -260,6 +260,11 @@ function finishRunInPlace(s: GameState, victory: boolean, reason?: string): void
   });
   s.phase = victory ? "victory" : "gameover";
   if (!victory) s.gameOverReason = reason;
+  // any open modal is moot once the run ends
+  s.pendingFailure = null;
+  s.pendingLevelUp = null;
+  s.pendingEvent = null;
+  s.pendingEmergencyTaskId = null;
   clearSave();
   pushLog(
     s,
