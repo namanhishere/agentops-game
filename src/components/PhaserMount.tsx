@@ -1,13 +1,18 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { createGame } from "../game/main";
 
-/** Full-size visual layer. Phaser wiring lands in Step 5. */
+/** Full-size Phaser visual layer. Read-only over the store; never writes it. */
 export function PhaserMount() {
   const ref = useRef<HTMLDivElement>(null);
-  return (
-    <div ref={ref} className="absolute inset-0 overflow-hidden bg-[#0a0c14]">
-      <div className="h-full w-full flex items-center justify-center text-slate-700 text-xs">
-        OFFICE VIEW — incoming
-      </div>
-    </div>
-  );
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const game = createGame(el);
+    return () => {
+      game.destroy(true);
+    };
+  }, []);
+
+  return <div ref={ref} className="absolute inset-0 overflow-hidden" />;
 }
